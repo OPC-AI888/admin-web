@@ -1,0 +1,1 @@
+import{bQ as t}from"./index-DB2ECm-4.js";const o={getList:a=>t.get("/admin/accounts",{params:a}),getDetail:a=>t.get(`/admin/accounts/${a}`),ban:(a,n)=>t.post(`/admin/accounts/${a}/ban`,n),unban:a=>t.post(`/admin/accounts/${a}/unban`),grant:(a,n)=>t.post(`/admin/accounts/${a}/grant`,n),resetPassword:a=>t.post(`/admin/accounts/${a}/reset-password`)};export{o as a};

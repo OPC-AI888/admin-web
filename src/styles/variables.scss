@@ -1,0 +1,19 @@
+// SCSS 变量（通过 vite.config.ts additionalData 全局注入）
+// 使用 @use 语法时，变量需要在此定义
+
+$primary-color: #1890ff;
+$primary-light: #40a9ff;
+$primary-dark: #096dd9;
+$success-color: #52c41a;
+$warning-color: #faad14;
+$danger-color: #f5222d;
+$info-color: #1890ff;
+
+$bg-color: #f0f2f5;
+$sidebar-width: 220px;
+$sidebar-collapsed-width: 64px;
+$header-height: 56px;
+
+$border-radius: 8px;
+$box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+$box-shadow-md: 0 2px 8px rgba(0, 21, 41, 0.12);

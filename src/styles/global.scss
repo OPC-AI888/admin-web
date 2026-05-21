@@ -1,0 +1,171 @@
+/* Element Plus 主题变量覆盖 */
+:root {
+  --el-color-primary: #1890ff;
+  --el-color-primary-light-3: #40a9ff;
+  --el-color-primary-light-5: #69c0ff;
+  --el-color-primary-light-7: #91d5ff;
+  --el-color-primary-light-8: #bae7ff;
+  --el-color-primary-light-9: #e6f7ff;
+  --el-color-primary-dark-2: #096dd9;
+
+  --el-color-success: #52c41a;
+  --el-color-warning: #faad14;
+  --el-color-danger: #f5222d;
+  --el-color-info: #8c8c8c;
+
+  --el-border-radius-base: 6px;
+  --el-border-radius-small: 4px;
+
+  --el-font-size-base: 14px;
+}
+
+/* 全局基础样式 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #262626;
+  background-color: #f0f2f5;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* 卡片样式 */
+.admin-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+/* 页面容器 */
+.page-container {
+  padding: 16px;
+  min-height: calc(100vh - 56px);
+}
+
+/* KPI 卡片统计数字 */
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #262626;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #8c8c8c;
+  margin-top: 4px;
+}
+
+/* 标签颜色扩展 */
+.el-tag--green {
+  background-color: #f6ffed;
+  border-color: #b7eb8f;
+  color: #52c41a;
+}
+
+.el-tag--red {
+  background-color: #fff2f0;
+  border-color: #ffa39e;
+  color: #f5222d;
+}
+
+.el-tag--orange {
+  background-color: #fff7e6;
+  border-color: #ffd591;
+  color: #fa8c16;
+}
+
+.el-tag--gray {
+  background-color: #fafafa;
+  border-color: #d9d9d9;
+  color: #8c8c8c;
+}
+
+/* 表格样式增强 */
+.el-table {
+  --el-table-border-color: #f0f0f0;
+}
+
+.el-table th.el-table__cell {
+  background-color: #fafafa;
+  color: #595959;
+  font-weight: 600;
+}
+
+/* 筛选区域 */
+.filter-section {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+}
+
+/* 操作按钮组 */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* 链接样式 */
+.link-button {
+  color: var(--el-color-primary);
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 13px;
+
+  &:hover {
+    color: var(--el-color-primary-light-3);
+  }
+}
+
+/* 数字高亮 */
+.number-highlight {
+  font-weight: 600;
+  color: var(--el-color-primary);
+}
+
+/* 危险操作按钮 */
+.danger-text {
+  color: var(--el-color-danger);
+  cursor: pointer;
+
+  &:hover {
+    color: #ff4d4f;
+  }
+}

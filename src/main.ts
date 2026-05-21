@@ -1,0 +1,24 @@
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import App from './App.vue'
+import router from './router'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import { vPermission } from '@/directives/permission'
+
+const app = createApp(App)
+
+// 注册所有 Element Plus 图标
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+
+app.use(createPinia())
+app.use(router)
+app.directive('permission', vPermission)
+
+// 路由守卫需要在 pinia 之后挂载
+import('./router/guards').then(({ setupGuards }) => {
+  setupGuards(router)
+})
+
+app.mount('#app')
