@@ -1,1 +1,0 @@
-import{bQ as e}from"./index-DB2ECm-4.js";const s={getList:()=>e.get("/admin/plans"),getDetail:a=>e.get(`/admin/plans/${a}`),update:(a,n)=>e.put(`/admin/plans/${a}`,n),enable:a=>e.post(`/admin/plans/${a}/enable`),disable:a=>e.post(`/admin/plans/${a}/disable`)};export{s as p};

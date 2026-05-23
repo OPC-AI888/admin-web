@@ -1,1 +1,0 @@
-import{bQ as n}from"./index-DB2ECm-4.js";const e={getTransactions:t=>n.get("/admin/payments/transactions",{params:t}),getReconciliation:t=>n.get("/admin/payments/reconciliation",{params:t})};export{e as p};

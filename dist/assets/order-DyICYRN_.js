@@ -1,1 +1,0 @@
-import{bQ as t}from"./index-DB2ECm-4.js";const d={getList:e=>t.get("/admin/orders",{params:e}),getStats:e=>t.get("/admin/orders/stats",{params:e}),getDetail:e=>t.get(`/admin/orders/${e}`),refund:(e,r)=>t.post(`/admin/orders/${e}/refund`,r)};export{d as o};
