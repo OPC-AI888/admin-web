@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b7abfc21-bfeb-4625-9b01-0a94d0494389" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/dist/assets/403-D8TK00d8.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/404-72DnSvrA.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/500-CDbjiUKt.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/BarChart.vue_vue_type_script_setup_true_lang-CXiDSp7W.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/BlankLayout-D-brUlbP.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/DefaultLayout-BNkKmBkW.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Detail-BMS7Wed3.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Detail-CUg_m2rr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Detail-CWV5rMPV.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Detail-DVFAy5Ck.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Edit-Bkg2pY7-.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Edit-Dhh3In-I.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Index-996rzK4o.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Index-BDm2gKnE.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Index-BHOXANUb.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Index-BmVrn6tY.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Index-Cm0XMfLf.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Index-D0I3Mjjp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Index-DgvueG3e.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/List-5eBpRc1U.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/List-C9I9QQJQ.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/List-Cir5NYae.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/List-DDwQheVb.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/List-DO9cWlX5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/List-DYSQQpn6.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/List-Dk4siECK.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/List-DqVAIiKW.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/List-L_cnj4OI.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/List-LquhkPvq.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/List-tCXdTMKH.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/List-tWkaKYH4.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Reconciliation-DIe19wqm.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Reconciliation-jQLZZWhw.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Transactions-BajmG3p-.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/Transactions-D-1CE_8q.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/_baseClone-CY-V5DQ6.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/_baseIteratee-BocW1L5Y.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/_plugin-vue_export-helper-uSkb_rpF.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/account-CM2GVT07.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/clamp-D4RPMK41.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/content-CtjCzHO3.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-alert-D9ErE9yP.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-avatar-EpnteXNY.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-button-BoQNIJ1W.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-col-DmBrdssQ.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-date-picker-BvCoERrn.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-descriptions-8QtfNOrP.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-dialog-C7rEEKyJ.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-empty-yv-lj1Tl.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-input-CHnjTh8g.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-input-number-COJzSrIt.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-loading-DsAB_A49.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-pagination-BA9O0QNX.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-select-cOr5MR4S.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-skeleton-CNIRvrEF.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-switch-PcVxRvFF.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-tab-pane-U0s2UMDs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-table-column-BMR28jtK.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-text-DFsvGxUR.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/el-tooltip-DTWTHnqJ.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/enums-DJ1bkRhI.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/format-IVlXlyy0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/guards-zgSPpbIv.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/index-B4mbpy9h.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/index-CNabt-_u.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/index-CU0yQ7N-.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/index-CxbYl2IJ.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/index-DB2ECm-4.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/index-DB_UZvfj.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/index-DfMTxf_F.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/index-DiEzs6FK.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/menu-ClCMN3R2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/omit-BIkX8d-S.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/order-DyICYRN_.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/payment-DFNiFtYF.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/plan-ClP2XDsP.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/raf-Dk3vXnVZ.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/scroll-CRobnr3o.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/strings-DGIe1MiR.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/useConfirm-B0bvIEm2.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/assets/vnode-DKv9qlGL.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/dist/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/element-plus_es_components_dropdown_style_css.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/element-plus_es_components_dropdown_style_css.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/element-plus_es_components_dropdown_style_css.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/element-plus_es_components_dropdown_style_css.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/element-plus_es_components_menu_style_css.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/element-plus_es_components_menu_style_css.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/element-plus_es_components_menu_style_css.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/element-plus_es_components_menu_style_css.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/element-plus_es_components_tag_style_css.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/element-plus_es_components_tag_style_css.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/element-plus_es_components_tag_style_css.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/element-plus_es_components_tag_style_css.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.vite/deps/vue-echarts.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.vite/deps/vue-echarts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/account.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/account.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/admin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/admin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/content.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/content.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/dashboard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/dashboard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/order.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/order.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/payment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/payment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/plan.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/plan.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/stats.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/stats.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/sync.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/sync.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/guards.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/guards.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/stores/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/stores/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/auth.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/format.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/format.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/account/Detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/account/Detail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/account/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/account/List.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/admin/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/admin/List.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/content/app-version/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/content/app-version/List.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/content/notice/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/content/notice/List.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/login/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/login/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/order/Detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/order/Detail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/order/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/order/List.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/payment/Reconciliation.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/payment/Reconciliation.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/payment/Transactions.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/payment/Transactions.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/plan/Edit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/plan/Edit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/plan/List.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/plan/List.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/sync/Index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/sync/Index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/vite.config.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "zhouliwen0220"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/OPC-AI888/admin-web.git",
+    "accountId": "82573c05-a2ac-44ea-9f1f-d6cc533c5830"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3E2gz5EO499my3duNMF8qwuSV9x" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "javascript.preferred.runtime.type.id": "node",
+    "last_opened_file_path": "/Users/zlw/project/opc/qoder/admin-web",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.fileTypes",
+    "ts.external.directory.path": "/Users/zlw/project/opc/qoder/admin-web/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-WS-261.24374.125" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b7abfc21-bfeb-4625-9b01-0a94d0494389" name="Changes" comment="" />
+      <created>1779382337297</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1779382337297</updated>
+      <workItem from="1779382338307" duration="1990000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

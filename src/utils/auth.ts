@@ -43,3 +43,24 @@ export function getAdminInfo<T>(): T | null {
 export function setAdminInfo(info: unknown): void {
   localStorage.setItem(TOKEN_KEYS.ADMIN_INFO, JSON.stringify(info))
 }
+
+export interface TokenPairResponse {
+  access_token?: string
+  refresh_token?: string
+  accessToken?: string
+  refreshToken?: string
+}
+
+export function getTokenPair(data: TokenPairResponse): {
+  accessToken: string
+  refreshToken: string
+} {
+  const accessToken = data.access_token ?? data.accessToken
+  const refreshToken = data.refresh_token ?? data.refreshToken
+
+  if (!accessToken || !refreshToken) {
+    throw new Error('登录响应缺少 Token')
+  }
+
+  return { accessToken, refreshToken }
+}

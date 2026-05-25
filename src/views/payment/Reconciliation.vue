@@ -21,67 +21,67 @@
       <el-col :xs="12" :sm="8" :lg="4">
         <div class="kpi-card">
           <div class="kpi-label">订单数</div>
-          <div class="kpi-value">{{ data?.order_count ?? '-' }}</div>
+          <div class="kpi-value">{{ data?.orderCount ?? '-' }}</div>
         </div>
       </el-col>
       <el-col :xs="12" :sm="8" :lg="4">
         <div class="kpi-card">
           <div class="kpi-label">成功数</div>
-          <div class="kpi-value">{{ data?.success_count ?? '-' }}</div>
+          <div class="kpi-value">{{ data?.successCount ?? '-' }}</div>
         </div>
       </el-col>
       <el-col :xs="12" :sm="8" :lg="4">
         <div class="kpi-card">
           <div class="kpi-label">成功金额</div>
-          <div class="kpi-value kpi-value--green">{{ data ? formatAmount(data.success_amount) : '-' }}</div>
+          <div class="kpi-value kpi-value--green">{{ data ? formatAmount(data.successAmount) : '-' }}</div>
         </div>
       </el-col>
       <el-col :xs="12" :sm="8" :lg="4">
         <div class="kpi-card">
           <div class="kpi-label">退款数</div>
-          <div class="kpi-value">{{ data?.refund_count ?? '-' }}</div>
+          <div class="kpi-value">{{ data?.refundCount ?? '-' }}</div>
         </div>
       </el-col>
       <el-col :xs="12" :sm="8" :lg="4">
         <div class="kpi-card">
           <div class="kpi-label">退款金额</div>
-          <div class="kpi-value kpi-value--red">{{ data ? formatAmount(data.refund_amount) : '-' }}</div>
+          <div class="kpi-value kpi-value--red">{{ data ? formatAmount(data.refundAmount) : '-' }}</div>
         </div>
       </el-col>
       <el-col :xs="12" :sm="8" :lg="4">
         <div class="kpi-card">
           <div class="kpi-label">净收入</div>
-          <div class="kpi-value kpi-value--blue">{{ data ? formatAmount(data.net_income) : '-' }}</div>
+          <div class="kpi-value kpi-value--blue">{{ data ? formatAmount(data.netIncome) : '-' }}</div>
         </div>
       </el-col>
     </el-row>
 
     <!-- 按支付方式分组 -->
-    <div class="admin-card" v-if="data && data.by_pay_method.length">
+    <div class="admin-card" v-if="data?.byPayMethod?.length">
       <div class="card-title">按支付方式明细</div>
-      <el-table :data="data.by_pay_method" stripe style="width: 100%">
+      <el-table :data="data.byPayMethod" stripe style="width: 100%">
         <el-table-column label="支付方式" width="120">
           <template #default="{ row }">
-            {{ PayMethodMap[row.pay_method as PayMethod]?.label || row.pay_method }}
+            {{ PayMethodMap[row.payMethod as PayMethod]?.label || row.payMethod }}
           </template>
         </el-table-column>
-        <el-table-column prop="order_count" label="订单数" width="100" />
-        <el-table-column prop="success_count" label="成功数" width="100" />
+        <el-table-column prop="orderCount" label="订单数" width="100" />
+        <el-table-column prop="successCount" label="成功数" width="100" />
         <el-table-column label="成功金额" width="120">
           <template #default="{ row }">
-            <span style="color: #52c41a; font-weight: 600">{{ formatAmount(row.success_amount) }}</span>
+            <span style="color: #52c41a; font-weight: 600">{{ formatAmount(row.successAmount) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="refund_count" label="退款数" width="100" />
+        <el-table-column prop="refundCount" label="退款数" width="100" />
         <el-table-column label="退款金额" width="120">
           <template #default="{ row }">
-            <span style="color: #f5222d">{{ formatAmount(row.refund_amount) }}</span>
+            <span style="color: #f5222d">{{ formatAmount(row.refundAmount) }}</span>
           </template>
         </el-table-column>
         <el-table-column label="净收入">
           <template #default="{ row }">
             <span style="color: #1890ff; font-weight: 600">
-              {{ formatAmount(row.success_amount - row.refund_amount) }}
+              {{ formatAmount(row.successAmount - row.refundAmount) }}
             </span>
           </template>
         </el-table-column>
@@ -97,7 +97,7 @@ import { ref, onMounted } from 'vue'
 import { paymentApi } from '@/api/payment'
 import type { ReconciliationData } from '@/api/payment'
 import { PayMethod, PayMethodMap } from '@/constants/enums'
-import { formatAmount } from '@/utils/format'
+import { formatAmount, dateToUTCStart } from '@/utils/format'
 import dayjs from 'dayjs'
 
 const yesterday = dayjs().subtract(1, 'day').format('YYYY-MM-DD')
@@ -109,7 +109,9 @@ const data = ref<ReconciliationData | null>(null)
 async function loadData() {
   loading.value = true
   try {
-    data.value = await paymentApi.getReconciliation({ date: selectedDate.value })
+    data.value = await paymentApi.getReconciliation({ date: dateToUTCStart(selectedDate.value) })
+  } catch {
+    data.value = null
   } finally {
     loading.value = false
   }

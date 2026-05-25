@@ -22,7 +22,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="套餐类型">
-          <el-select v-model="query.plan_type" placeholder="全部" clearable multiple style="width: 180px">
+          <el-select v-model="query.planType" placeholder="全部" clearable multiple style="width: 180px">
             <el-option
               v-for="(v, k) in PlanTypeMap"
               :key="k"
@@ -44,7 +44,7 @@
           />
         </el-form-item>
         <el-form-item label="付费用户">
-          <el-switch v-model="query.is_paid" />
+          <el-switch v-model="query.isPaid" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
@@ -78,24 +78,24 @@
         </el-table-column>
         <el-table-column label="当前套餐" width="90">
           <template #default="{ row }">
-            <el-tag :type="PlanTypeMap[row.plan_type as PlanType]?.type" size="small">
-              {{ PlanTypeMap[row.plan_type as PlanType]?.label || row.plan_type }}
+            <el-tag :type="PlanTypeMap[row.planType as PlanType]?.type" size="small">
+              {{ PlanTypeMap[row.planType as PlanType]?.label || row.planType }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column label="套餐到期" width="120">
           <template #default="{ row }">
-            {{ formatTime(row.subscription_end_time, 'YYYY-MM-DD') }}
+            {{ formatTime(row.endTime, 'YYYY-MM-DD') }}
           </template>
         </el-table-column>
         <el-table-column label="最近登录" width="160">
           <template #default="{ row }">
-            {{ formatTime(row.last_login_time) }}
+            {{ formatTime(row.lastLoginTime) }}
           </template>
         </el-table-column>
         <el-table-column label="注册时间" width="160">
           <template #default="{ row }">
-            {{ formatTime(row.created_time) }}
+            {{ formatTime(row.createdTime) }}
           </template>
         </el-table-column>
         <el-table-column label="操作" width="260" fixed="right">
@@ -144,7 +144,7 @@
       <div class="pagination-wrap">
         <el-pagination
           v-model:current-page="pagination.page"
-          v-model:page-size="pagination.page_size"
+          v-model:page-size="pagination.pageSize"
           :total="pagination.total"
           :page-sizes="[10, 20, 50, 100]"
           layout="total, sizes, prev, pager, next, jumper"
@@ -185,8 +185,8 @@
     <!-- 赠送时长弹窗 -->
     <el-dialog v-model="grantDialog.visible" title="赠送订阅时长" width="480px" :close-on-click-modal="false">
       <el-form :model="grantDialog" :rules="grantRules" ref="grantFormRef" label-width="90px">
-        <el-form-item label="套餐类型" prop="plan_type">
-          <el-select v-model="grantDialog.plan_type" placeholder="选择套餐" style="width: 100%">
+        <el-form-item label="套餐类型" prop="planType">
+          <el-select v-model="grantDialog.planType" placeholder="选择套餐" style="width: 100%">
             <el-option label="日卡" value="DAY_CARD" />
             <el-option label="月卡" value="MONTH_CARD" />
             <el-option label="年卡" value="YEAR_CARD" />
@@ -253,7 +253,7 @@ import { Search, Refresh, CopyDocument } from '@element-plus/icons-vue'
 import { accountApi } from '@/api/account'
 import type { AccountItem } from '@/api/account'
 import { UserStatus, UserStatusMap, PlanType, PlanTypeMap } from '@/constants/enums'
-import { formatTime } from '@/utils/format'
+import { formatTime, dateToUTCStart, dateToUTCEnd } from '@/utils/format'
 import { useConfirm } from '@/composables/useConfirm'
 
 const router = useRouter()
@@ -267,33 +267,38 @@ const dateRange = ref<[string, string] | null>(null)
 const query = reactive({
   phone: '',
   status: [] as string[],
-  plan_type: [] as string[],
-  created_time_start: '',
-  created_time_end: '',
-  is_paid: false,
+  planType: [] as string[],
+  createdTimeStart: '',
+  createdTimeEnd: '',
+  isPaid: false,
 })
+
+function handleDateChange(value: [string, string] | null) {
+  if (value) {
+    query.createdTimeStart = dateToUTCStart(value[0])
+    query.createdTimeEnd = dateToUTCEnd(value[1])
+  } else {
+    query.createdTimeStart = ''
+    query.createdTimeEnd = ''
+  }
+}
 
 const pagination = reactive({
   page: 1,
-  page_size: 20,
+  pageSize: 20,
   total: 0,
 })
-
-function handleDateChange(val: [string, string] | null) {
-  query.created_time_start = val?.[0] || ''
-  query.created_time_end = val?.[1] || ''
-}
 
 async function loadData() {
   loading.value = true
   try {
-    const params: Record<string, unknown> = {
+    const params = {
       ...query,
       page: pagination.page,
-      page_size: pagination.page_size,
-    }
-    if (!params.is_paid) delete params.is_paid
-    const res = await accountApi.getList(params as Parameters<typeof accountApi.getList>[0])
+      pageSize: pagination.pageSize,
+    } as Parameters<typeof accountApi.getList>[0]
+    if (!params.isPaid) delete params.isPaid
+    const res = await accountApi.getList(params)
     tableData.value = res.list
     pagination.total = res.total
   } finally {
@@ -309,10 +314,10 @@ function handleSearch() {
 function handleReset() {
   query.phone = ''
   query.status = []
-  query.plan_type = []
-  query.created_time_start = ''
-  query.created_time_end = ''
-  query.is_paid = false
+  query.planType = []
+  query.createdTimeStart = ''
+  query.createdTimeEnd = ''
+  query.isPaid = false
   dateRange.value = null
   pagination.page = 1
   loadData()
@@ -324,7 +329,7 @@ function handlePageChange(page: number) {
 }
 
 function handleSizeChange(size: number) {
-  pagination.page_size = size
+  pagination.pageSize = size
   pagination.page = 1
   loadData()
 }
@@ -388,13 +393,13 @@ const grantDialog = reactive({
   visible: false,
   id: 0,
   phone: '',
-  plan_type: '',
+  planType: '',
   days: 30,
   reason: '',
   loading: false,
 })
 const grantRules: FormRules = {
-  plan_type: [{ required: true, message: '请选择套餐类型', trigger: 'change' }],
+  planType: [{ required: true, message: '请选择套餐类型', trigger: 'change' }],
   days: [{ required: true, message: '请输入赠送天数', trigger: 'blur' }],
   reason: [{ required: true, message: '请输入赠送原因', trigger: 'blur' }],
 }
@@ -402,7 +407,7 @@ const grantRules: FormRules = {
 function handleGrant(row: AccountItem) {
   grantDialog.id = row.id
   grantDialog.phone = row.phone
-  grantDialog.plan_type = ''
+  grantDialog.planType = ''
   grantDialog.days = 30
   grantDialog.reason = ''
   grantDialog.visible = true
@@ -413,7 +418,7 @@ async function confirmGrant() {
   const valid = await grantFormRef.value.validate().catch(() => false)
   if (!valid) return
 
-  const planLabel = { DAY_CARD: '日卡', MONTH_CARD: '月卡', YEAR_CARD: '年卡' }[grantDialog.plan_type] || ''
+  const planLabel = { DAY_CARD: '日卡', MONTH_CARD: '月卡', YEAR_CARD: '年卡' }[grantDialog.planType] || ''
   const ok = await confirm({
     title: '赠送确认',
     message: `确认赠送用户 <strong>${grantDialog.phone}</strong> <strong>${grantDialog.days} 天 ${planLabel}</strong>？`,
@@ -424,7 +429,7 @@ async function confirmGrant() {
   grantDialog.loading = true
   try {
     await accountApi.grant(grantDialog.id, {
-      plan_type: grantDialog.plan_type,
+      planType: grantDialog.planType,
       days: grantDialog.days,
       reason: grantDialog.reason,
     })
@@ -451,7 +456,7 @@ async function handleResetPassword(row: AccountItem) {
   if (!ok) return
   try {
     const res = await accountApi.resetPassword(row.id)
-    passwordDialog.tempPassword = res.temp_password
+    passwordDialog.tempPassword = res.tempPassword
     passwordDialog.visible = true
   } catch {
     // error handled by interceptor

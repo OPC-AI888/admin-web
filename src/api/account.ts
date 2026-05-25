@@ -3,12 +3,12 @@ import request from './request'
 export interface AccountListParams {
   phone?: string
   status?: string | string[]
-  plan_type?: string | string[]
-  created_time_start?: string
-  created_time_end?: string
-  is_paid?: boolean
+  planType?: string | string[]
+  createdTimeStart?: string
+  createdTimeEnd?: string
+  isPaid?: boolean
   page?: number
-  page_size?: number
+  pageSize?: number
 }
 
 export interface AccountItem {
@@ -17,17 +17,17 @@ export interface AccountItem {
   nickname: string
   avatar?: string
   status: string
-  plan_type: string
-  subscription_end_time?: string
-  last_login_time?: string
-  created_time: string
+  planType: string
+  endTime?: string
+  lastLoginTime?: string
+  createdTime: string
 }
 
 export interface PageResult<T> {
   list: T[]
   total: number
   page: number
-  page_size: number
+  pageSize: number
 }
 
 export interface AccountDetail {
@@ -36,23 +36,21 @@ export interface AccountDetail {
   nickname: string
   avatar?: string
   status: string
-  created_time: string
-  last_login_time?: string
-  // 当前订阅
+  createdTime: string
+  lastLoginTime?: string
   subscription?: {
-    plan_type: string
-    start_time: string
-    end_time: string
+    planType: string
+    startTime: string
+    endTime: string
     status: string
-    daily_dial_limit: number
-    customer_limit: number
-    sync_mode: string
+    dailyDialLimit: number
+    customerLimit: number
+    syncMode: string
   }
-  // 最近同步信息
-  sync_info?: {
-    synced_time: string
-    data_size: number
-    content_hash: string
+  syncInfo?: {
+    syncedTime: string
+    dataSize: number
+    contentHashPrefix: string
   }
 }
 
@@ -61,29 +59,43 @@ export interface BanParams {
 }
 
 export interface GrantParams {
-  plan_type: string
+  planType: string
   days: number
   reason: string
 }
 
 export interface ResetPasswordResponse {
-  temp_password: string
+  tempPassword: string
+}
+
+function firstValue(value?: string | string[]) {
+  return Array.isArray(value) ? value[0] : value
+}
+
+function toListParams(params: AccountListParams) {
+  return {
+    ...params,
+    status: firstValue(params.status),
+    planType: firstValue(params.planType),
+    size: params.pageSize,
+    pageSize: undefined,
+  }
 }
 
 export const accountApi = {
   getList: (params: AccountListParams): Promise<PageResult<AccountItem>> =>
-    request.get('/admin/accounts', { params }),
+    request.get('/users', { params: toListParams(params) }) as Promise<PageResult<AccountItem>>,
 
-  getDetail: (id: number): Promise<AccountDetail> => request.get(`/admin/accounts/${id}`),
+  getDetail: (id: number): Promise<AccountDetail> => request.get(`/users/${id}`),
 
   ban: (id: number, data: BanParams): Promise<void> =>
-    request.post(`/admin/accounts/${id}/ban`, data),
+    request.put(`/users/${id}/status`, { ...data, status: 'BANNED' }),
 
-  unban: (id: number): Promise<void> => request.post(`/admin/accounts/${id}/unban`),
+  unban: (id: number): Promise<void> => request.put(`/users/${id}/status`, { status: 'ACTIVE' }),
 
   grant: (id: number, data: GrantParams): Promise<void> =>
-    request.post(`/admin/accounts/${id}/grant`, data),
+    request.post(`/users/${id}/gift`, { planType: data.planType, days: data.days, reason: data.reason }),
 
   resetPassword: (id: number): Promise<ResetPasswordResponse> =>
-    request.post(`/admin/accounts/${id}/reset-password`),
+    request.post(`/users/${id}/reset-password`),
 }

@@ -16,12 +16,12 @@
           />
         </el-form-item>
         <el-form-item label="支付方式">
-          <el-select v-model="query.pay_method" placeholder="全部" clearable style="width: 140px">
+          <el-select v-model="query.payMethod" placeholder="全部" clearable style="width: 140px">
             <el-option v-for="(v, k) in PayMethodMap" :key="k" :label="v.label" :value="k" />
           </el-select>
         </el-form-item>
         <el-form-item label="支付状态">
-          <el-select v-model="query.pay_status" placeholder="全部" clearable style="width: 140px">
+          <el-select v-model="query.payStatus" placeholder="全部" clearable style="width: 140px">
             <el-option v-for="(v, k) in PayStatusMap" :key="k" :label="v.label" :value="k" />
           </el-select>
         </el-form-item>
@@ -42,39 +42,39 @@
       </div>
 
       <el-table v-loading="loading" :data="tableData" stripe style="width: 100%" row-key="id">
-        <el-table-column prop="order_no" label="订单号" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="account_phone" label="手机号" width="130" />
+        <el-table-column prop="orderNo" label="订单号" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="accountPhone" label="手机号" width="130" />
         <el-table-column label="金额" width="100">
           <template #default="{ row }">{{ formatAmount(row.amount) }}</template>
         </el-table-column>
         <el-table-column label="支付方式" width="100">
           <template #default="{ row }">
-            {{ PayMethodMap[row.pay_method as PayMethod]?.label || row.pay_method }}
+            {{ PayMethodMap[row.payMethod as PayMethod]?.label || row.payMethod }}
           </template>
         </el-table-column>
         <el-table-column label="支付状态" width="100">
           <template #default="{ row }">
-            <el-tag :type="PayStatusMap[row.pay_status as PayStatus]?.type" size="small">
-              {{ PayStatusMap[row.pay_status as PayStatus]?.label }}
+            <el-tag :type="PayStatusMap[row.payStatus as PayStatus]?.type" size="small">
+              {{ PayStatusMap[row.payStatus as PayStatus]?.label }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column label="退款状态" width="100">
           <template #default="{ row }">
-            <el-tag :type="RefundStatusMap[row.refund_status as RefundStatus]?.type" size="small">
-              {{ RefundStatusMap[row.refund_status as RefundStatus]?.label }}
+            <el-tag :type="RefundStatusMap[row.refundStatus as RefundStatus]?.type" size="small">
+              {{ RefundStatusMap[row.refundStatus as RefundStatus]?.label }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column label="支付时间" width="160">
-          <template #default="{ row }">{{ formatTime(row.pay_time) }}</template>
+          <template #default="{ row }">{{ formatTime(row.payTime) }}</template>
         </el-table-column>
       </el-table>
 
       <div class="pagination-wrap">
         <el-pagination
           v-model:current-page="pagination.page"
-          v-model:page-size="pagination.page_size"
+          v-model:page-size="pagination.pageSize"
           :total="pagination.total"
           :page-sizes="[10, 20, 50, 100]"
           layout="total, sizes, prev, pager, next, jumper"
@@ -98,37 +98,39 @@ import {
   PayStatus, PayStatusMap,
   RefundStatus, RefundStatusMap,
 } from '@/constants/enums'
-import { formatTime, formatAmount } from '@/utils/format'
+import { formatTime, formatAmount, dateToUTCStart, dateToUTCEnd } from '@/utils/format'
 import dayjs from 'dayjs'
 
 const today = dayjs().format('YYYY-MM-DD')
+const todayStart = dateToUTCStart(today)
+const todayEnd = dateToUTCEnd(today)
 
 const loading = ref(false)
 const tableData = ref<TransactionItem[]>([])
 const dateRange = ref<[string, string]>([today, today])
 
 const query = reactive({
-  pay_time_start: today,
-  pay_time_end: today,
-  pay_method: '',
-  pay_status: '',
+  startDate: todayStart,
+  endDate: todayEnd,
+  payMethod: '',
+  payStatus: '',
 })
 
 const pagination = reactive({
   page: 1,
-  page_size: 20,
+  pageSize: 20,
   total: 0,
 })
 
 function handleDateChange(val: [string, string] | null) {
-  query.pay_time_start = val?.[0] || today
-  query.pay_time_end = val?.[1] || today
+  query.startDate = val?.[0] ? dateToUTCStart(val[0]) : dateToUTCStart(today)
+  query.endDate = val?.[1] ? dateToUTCEnd(val[1]) : dateToUTCEnd(today)
 }
 
 function buildParams() {
   const p: Record<string, unknown> = { ...query }
-  if (!p.pay_method) delete p.pay_method
-  if (!p.pay_status) delete p.pay_status
+  if (!p.payMethod) delete p.payMethod
+  if (!p.payStatus) delete p.payStatus
   return p
 }
 
@@ -138,7 +140,7 @@ async function loadData() {
     const res = await paymentApi.getTransactions({
       ...buildParams(),
       page: pagination.page,
-      page_size: pagination.page_size,
+      pageSize: pagination.pageSize,
     } as Parameters<typeof paymentApi.getTransactions>[0])
     tableData.value = res.list
     pagination.total = res.total
@@ -154,10 +156,10 @@ function handleSearch() {
 
 function handleReset() {
   dateRange.value = [today, today]
-  query.pay_time_start = today
-  query.pay_time_end = today
-  query.pay_method = ''
-  query.pay_status = ''
+  query.startDate = todayStart
+  query.endDate = todayEnd
+  query.payMethod = ''
+  query.payStatus = ''
   pagination.page = 1
   loadData()
 }
@@ -168,7 +170,7 @@ function handlePageChange(page: number) {
 }
 
 function handleSizeChange(size: number) {
-  pagination.page_size = size
+  pagination.pageSize = size
   pagination.page = 1
   loadData()
 }
@@ -182,13 +184,13 @@ function handleExportCSV() {
 
   const headers = ['订单号', '手机号', '金额', '支付方式', '支付状态', '退款状态', '支付时间']
   const rows = tableData.value.map((row) => [
-    row.order_no,
-    row.account_phone,
+    row.orderNo,
+    row.accountPhone,
     row.amount.toFixed(2),
-    PayMethodMap[row.pay_method as PayMethod]?.label || row.pay_method,
-    PayStatusMap[row.pay_status as PayStatus]?.label || row.pay_status,
-    RefundStatusMap[row.refund_status as RefundStatus]?.label || row.refund_status,
-    row.pay_time ? formatTime(row.pay_time) : '-',
+    PayMethodMap[row.payMethod as PayMethod]?.label || row.payMethod,
+    PayStatusMap[row.payStatus as PayStatus]?.label || row.payStatus,
+    RefundStatusMap[row.refundStatus as RefundStatus]?.label || row.refundStatus,
+    row.payTime ? formatTime(row.payTime) : '-',
   ])
 
   const csvContent = [headers, ...rows]
@@ -200,7 +202,7 @@ function handleExportCSV() {
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.href = url
-  link.download = `transactions_${query.pay_time_start}_${query.pay_time_end}.csv`
+  link.download = `transactions_${dateRange.value[0]}_${dateRange.value[1]}.csv`
   link.click()
   URL.revokeObjectURL(url)
   ElMessage.success('导出成功')

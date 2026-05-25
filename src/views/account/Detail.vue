@@ -44,11 +44,11 @@
           </div>
           <div class="user-stats">
             <div class="stat-item">
-              <div class="stat-val">{{ formatDate(detail.created_time) }}</div>
+              <div class="stat-val">{{ formatDate(detail.createdTime) }}</div>
               <div class="stat-key">注册时间</div>
             </div>
             <div class="stat-item">
-              <div class="stat-val">{{ formatTime(detail.last_login_time) }}</div>
+              <div class="stat-val">{{ formatTime(detail.lastLoginTime) }}</div>
               <div class="stat-key">最近登录</div>
             </div>
           </div>
@@ -64,8 +64,8 @@
               <template v-if="detail.subscription">
                 <el-descriptions :column="3" border>
                   <el-descriptions-item label="套餐类型">
-                    <el-tag :type="PlanTypeMap[detail.subscription.plan_type as PlanType]?.type">
-                      {{ PlanTypeMap[detail.subscription.plan_type as PlanType]?.label }}
+                    <el-tag :type="PlanTypeMap[detail.subscription.planType as PlanType]?.type">
+                      {{ PlanTypeMap[detail.subscription.planType as PlanType]?.label }}
                     </el-tag>
                   </el-descriptions-item>
                   <el-descriptions-item label="订阅状态">
@@ -74,19 +74,19 @@
                     </el-tag>
                   </el-descriptions-item>
                   <el-descriptions-item label="同步模式">
-                    {{ SyncModeMap[detail.subscription.sync_mode as SyncMode]?.label }}
+                    {{ SyncModeMap[detail.subscription.syncMode as SyncMode]?.label }}
                   </el-descriptions-item>
                   <el-descriptions-item label="开始时间">
-                    {{ formatTime(detail.subscription.start_time) }}
+                    {{ formatTime(detail.subscription.startTime) }}
                   </el-descriptions-item>
                   <el-descriptions-item label="到期时间">
-                    {{ formatTime(detail.subscription.end_time) }}
+                    {{ formatTime(detail.subscription.endTime) }}
                   </el-descriptions-item>
                   <el-descriptions-item label="每日拨打上限">
-                    {{ detail.subscription.daily_dial_limit === -1 ? '无限制' : detail.subscription.daily_dial_limit }}
+                    {{ detail.subscription.dailyDialLimit === -1 ? '无限制' : detail.subscription.dailyDialLimit }}
                   </el-descriptions-item>
                   <el-descriptions-item label="客户数上限">
-                    {{ detail.subscription.customer_limit === -1 ? '无限制' : detail.subscription.customer_limit }}
+                    {{ detail.subscription.customerLimit === -1 ? '无限制' : detail.subscription.customerLimit }}
                   </el-descriptions-item>
                 </el-descriptions>
               </template>
@@ -98,11 +98,11 @@
           <el-tab-pane label="订单历史" name="orders">
             <div class="tab-content">
               <el-table :data="orderList" stripe style="width: 100%">
-                <el-table-column prop="order_no" label="订单号" min-width="160" show-overflow-tooltip />
+                <el-table-column prop="orderNo" label="订单号" min-width="160" show-overflow-tooltip />
                 <el-table-column label="套餐" width="90">
                   <template #default="{ row }">
-                    <el-tag :type="PlanTypeMap[row.plan_type as PlanType]?.type" size="small">
-                      {{ PlanTypeMap[row.plan_type as PlanType]?.label }}
+                    <el-tag :type="PlanTypeMap[row.planType as PlanType]?.type" size="small">
+                      {{ PlanTypeMap[row.planType as PlanType]?.label }}
                     </el-tag>
                   </template>
                 </el-table-column>
@@ -111,25 +111,25 @@
                 </el-table-column>
                 <el-table-column label="支付方式" width="90">
                   <template #default="{ row }">
-                    {{ PayMethodMap[row.pay_method as PayMethod]?.label || row.pay_method }}
+                    {{ PayMethodMap[row.payMethod as PayMethod]?.label || row.payMethod }}
                   </template>
                 </el-table-column>
                 <el-table-column label="支付状态" width="90">
                   <template #default="{ row }">
-                    <el-tag :type="PayStatusMap[row.pay_status as PayStatus]?.type" size="small">
-                      {{ PayStatusMap[row.pay_status as PayStatus]?.label }}
+                    <el-tag :type="PayStatusMap[row.payStatus as PayStatus]?.type" size="small">
+                      {{ PayStatusMap[row.payStatus as PayStatus]?.label }}
                     </el-tag>
                   </template>
                 </el-table-column>
                 <el-table-column label="退款状态" width="90">
                   <template #default="{ row }">
-                    <el-tag :type="RefundStatusMap[row.refund_status as RefundStatus]?.type" size="small">
-                      {{ RefundStatusMap[row.refund_status as RefundStatus]?.label }}
+                    <el-tag :type="RefundStatusMap[row.refundStatus as RefundStatus]?.type" size="small">
+                      {{ RefundStatusMap[row.refundStatus as RefundStatus]?.label }}
                     </el-tag>
                   </template>
                 </el-table-column>
                 <el-table-column label="支付时间" width="160">
-                  <template #default="{ row }">{{ formatTime(row.pay_time) }}</template>
+                  <template #default="{ row }">{{ formatTime(row.payTime) }}</template>
                 </el-table-column>
                 <el-table-column label="操作" width="80">
                   <template #default="{ row }">
@@ -146,16 +146,16 @@
           <!-- Tab 3：同步信息 -->
           <el-tab-pane label="同步信息" name="sync">
             <div class="tab-content">
-              <template v-if="detail.sync_info">
+              <template v-if="detail.syncInfo">
                 <el-descriptions :column="2" border>
                   <el-descriptions-item label="最近同步时间">
-                    {{ formatTime(detail.sync_info.synced_time) }}
+                    {{ formatTime(detail.syncInfo.syncedTime) }}
                   </el-descriptions-item>
                   <el-descriptions-item label="数据大小">
-                    {{ formatBytes(detail.sync_info.data_size) }}
+                    {{ formatBytes(detail.syncInfo.dataSize) }}
                   </el-descriptions-item>
                   <el-descriptions-item label="内容哈希（前8位）">
-                    <code>{{ detail.sync_info.content_hash?.slice(0, 8) }}</code>
+                    <code>{{ detail.syncInfo.contentHashPrefix || '-' }}</code>
                   </el-descriptions-item>
                 </el-descriptions>
               </template>
@@ -205,8 +205,8 @@
     <!-- 赠送时长弹窗 -->
     <el-dialog v-model="grantDialog.visible" title="赠送订阅时长" width="480px" :close-on-click-modal="false">
       <el-form :model="grantDialog" :rules="grantRules" ref="grantFormRef" label-width="90px">
-        <el-form-item label="套餐类型" prop="plan_type">
-          <el-select v-model="grantDialog.plan_type" placeholder="选择套餐" style="width: 100%">
+        <el-form-item label="套餐类型" prop="planType">
+          <el-select v-model="grantDialog.planType" placeholder="选择套餐" style="width: 100%">
             <el-option label="日卡" value="DAY_CARD" />
             <el-option label="月卡" value="MONTH_CARD" />
             <el-option label="年卡" value="YEAR_CARD" />
@@ -333,13 +333,13 @@ async function handleUnban() {
 const grantFormRef = ref<FormInstance>()
 const grantDialog = reactive({
   visible: false,
-  plan_type: '',
+  planType: '',
   days: 30,
   reason: '',
   loading: false,
 })
 const grantRules: FormRules = {
-  plan_type: [{ required: true, message: '请选择套餐类型', trigger: 'change' }],
+  planType: [{ required: true, message: '请选择套餐类型', trigger: 'change' }],
   days: [{ required: true, message: '请输入赠送天数', trigger: 'blur' }],
   reason: [{ required: true, message: '请输入赠送原因', trigger: 'blur' }],
 }
@@ -351,7 +351,7 @@ async function confirmGrant() {
   grantDialog.loading = true
   try {
     await accountApi.grant(accountId, {
-      plan_type: grantDialog.plan_type,
+      planType: grantDialog.planType,
       days: grantDialog.days,
       reason: grantDialog.reason,
     })
@@ -375,7 +375,7 @@ async function handleResetPassword() {
   if (!ok) return
   try {
     const res = await accountApi.resetPassword(accountId)
-    passwordDialog.tempPassword = res.temp_password
+    passwordDialog.tempPassword = res.tempPassword
     passwordDialog.visible = true
   } catch { /* empty */ }
 }

@@ -1,8 +1,10 @@
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import utc from 'dayjs/plugin/utc'
 import 'dayjs/locale/zh-cn'
 
 dayjs.extend(relativeTime)
+dayjs.extend(utc)
 dayjs.locale('zh-cn')
 
 /**
@@ -67,4 +69,28 @@ export function formatLargeNumber(num: number | null | undefined): string {
   if (num >= 100000000) return `${(num / 100000000).toFixed(2)}亿`
   if (num >= 10000) return `${(num / 10000).toFixed(1)}万`
   return String(num)
+}
+
+/**
+ * 将本地日期转换为 UTC 该日 00:00:00（用于查询范围开始）
+ */
+export function dateToUTCStart(dateStr: string): string {
+  if (!dateStr) return ''
+  return dayjs(dateStr).startOf('day').utc().format()
+}
+
+/**
+ * 将本地日期转换为 UTC 该日 23:59:59（用于查询范围结束）
+ */
+export function dateToUTCEnd(dateStr: string): string {
+  if (!dateStr) return ''
+  return dayjs(dateStr).endOf('day').utc().format()
+}
+
+/**
+ * 将本地日期时间字符串转换为 UTC（用于 publishTime 等精确时刻）
+ */
+export function datetimeToUTC(dateStr: string): string {
+  if (!dateStr) return ''
+  return dayjs(dateStr).utc().format()
 }

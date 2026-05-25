@@ -141,8 +141,8 @@ async function loadCaptcha() {
   captchaImg.value = ''
   try {
     const res = await authApi.getCaptcha()
-    captchaKey.value = res.captcha_key
-    captchaImg.value = `data:image/png;base64,${res.image_base64}`
+    captchaKey.value = res.captchaKey
+    captchaImg.value = `data:image/png;base64,${res.imageBase64}`
   } catch {
     // 静默失败
   }
@@ -167,7 +167,7 @@ async function handleLogin() {
       username: form.username,
       password: form.password,
       captcha: form.captcha,
-      captcha_key: captchaKey.value,
+      captchaKey: captchaKey.value,
     })
 
     // 构建菜单

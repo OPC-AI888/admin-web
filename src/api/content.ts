@@ -3,24 +3,24 @@ import request from './request'
 // ---- App 版本 ----
 export interface AppVersionItem {
   id: number
-  version_code: number
-  version_name: string
+  versionCode: number
+  versionName: string
   platform: string
-  download_url: string
-  force_update: boolean
+  downloadUrl: string
+  forceUpdate: boolean
   status: string
-  release_notes: string
-  created_time: string
-  published_time?: string
+  releaseNotes: string
+  createdTime: string
+  publishedTime?: string
 }
 
 export interface AppVersionCreateParams {
-  version_code: number
-  version_name: string
+  versionCode: number
+  versionName: string
   platform: string
-  download_url: string
-  force_update: boolean
-  release_notes: string
+  downloadUrl: string
+  forceUpdate: boolean
+  releaseNotes: string
 }
 
 export interface AppVersionUpdateParams extends Partial<AppVersionCreateParams> {}
@@ -38,18 +38,18 @@ export interface NoticeItem {
   title: string
   content: string
   type: string
-  target_users: string
+  targetUsers: string
   status: string
-  publish_time?: string
-  created_time: string
+  publishTime?: string
+  createdTime: string
 }
 
 export interface NoticeCreateParams {
   title: string
   content: string
   type: string
-  target_users: string
-  publish_time?: string
+  targetUsers: string
+  publishTime?: string
 }
 
 export interface NoticeUpdateParams extends Partial<NoticeCreateParams> {}
@@ -57,42 +57,36 @@ export interface NoticeUpdateParams extends Partial<NoticeCreateParams> {}
 export const contentApi = {
   // App 版本
   getAppVersionList: (params?: { platform?: string; status?: string; page?: number; page_size?: number }): Promise<PageResult<AppVersionItem>> =>
-    request.get('/admin/app-versions', { params }),
-
-  getAppVersionDetail: (id: number): Promise<AppVersionItem> =>
-    request.get(`/admin/app-versions/${id}`),
+    request.get('/app-versions', { params }),
 
   createAppVersion: (data: AppVersionCreateParams): Promise<AppVersionItem> =>
-    request.post('/admin/app-versions', data),
+    request.post('/app-versions', data),
 
   updateAppVersion: (id: number, data: AppVersionUpdateParams): Promise<void> =>
-    request.put(`/admin/app-versions/${id}`, data),
+    request.put(`/app-versions/${id}`, data),
 
   publishAppVersion: (id: number): Promise<void> =>
-    request.post(`/admin/app-versions/${id}/publish`),
+    request.post(`/app-versions/${id}/publish`),
 
   archiveAppVersion: (id: number): Promise<void> =>
-    request.post(`/admin/app-versions/${id}/archive`),
+    request.post(`/app-versions/${id}/archive`),
 
   // 公告
   getNoticeList: (params?: { type?: string; status?: string; page?: number; page_size?: number }): Promise<PageResult<NoticeItem>> =>
-    request.get('/admin/notices', { params }),
-
-  getNoticeDetail: (id: number): Promise<NoticeItem> =>
-    request.get(`/admin/notices/${id}`),
+    request.get('/notices', { params }),
 
   createNotice: (data: NoticeCreateParams): Promise<NoticeItem> =>
-    request.post('/admin/notices', data),
+    request.post('/notices', data),
 
   updateNotice: (id: number, data: NoticeUpdateParams): Promise<void> =>
-    request.put(`/admin/notices/${id}`, data),
+    request.put(`/notices/${id}`, data),
 
   publishNotice: (id: number): Promise<void> =>
-    request.post(`/admin/notices/${id}/publish`),
+    request.post(`/notices/${id}/publish`),
 
   offlineNotice: (id: number): Promise<void> =>
-    request.post(`/admin/notices/${id}/offline`),
+    request.post(`/notices/${id}/offline`),
 
   deleteNotice: (id: number): Promise<void> =>
-    request.delete(`/admin/notices/${id}`),
+    request.delete(`/notices/${id}`),
 }

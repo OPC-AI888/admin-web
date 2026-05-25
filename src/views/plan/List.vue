@@ -17,8 +17,8 @@
       >
         <el-table-column label="套餐类型" width="100">
           <template #default="{ row }">
-            <el-tag :type="PlanTypeMap[row.plan_type as PlanType]?.type" size="small">
-              {{ PlanTypeMap[row.plan_type as PlanType]?.label || row.plan_type }}
+            <el-tag :type="PlanTypeMap[row.planType as PlanType]?.type" size="small">
+              {{ PlanTypeMap[row.planType as PlanType]?.label || row.planType }}
             </el-tag>
           </template>
         </el-table-column>
@@ -30,28 +30,28 @@
         </el-table-column>
         <el-table-column label="每日拨打上限" width="120">
           <template #default="{ row }">
-            {{ row.daily_dial_limit === -1 ? '无限制' : row.daily_dial_limit }}
+            {{ row.dailyDialLimit === -1 ? '无限制' : row.dailyDialLimit }}
           </template>
         </el-table-column>
         <el-table-column label="客户上限" width="100">
           <template #default="{ row }">
-            {{ row.customer_limit === -1 ? '无限制' : row.customer_limit }}
+            {{ row.customerLimit === -1 ? '无限制' : row.customerLimit }}
           </template>
         </el-table-column>
         <el-table-column label="同步模式" width="140">
           <template #default="{ row }">
-            {{ SyncModeMap[row.sync_mode as SyncMode]?.label || row.sync_mode }}
+            {{ SyncModeMap[row.syncMode as SyncMode]?.label || row.syncMode }}
           </template>
         </el-table-column>
         <el-table-column label="数据导出" width="90">
           <template #default="{ row }">
-            <el-tag :type="row.data_export ? 'success' : 'info'" size="small">
-              {{ row.data_export ? '支持' : '不支持' }}
+            <el-tag :type="row.dataExport ? 'success' : 'info'" size="small">
+              {{ row.dataExport ? '支持' : '不支持' }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column label="体验天数" width="90">
-          <template #default="{ row }">{{ row.trial_days || '-' }}</template>
+          <template #default="{ row }">{{ row.trialDays || '-' }}</template>
         </el-table-column>
         <el-table-column label="状态" width="90">
           <template #default="{ row }">

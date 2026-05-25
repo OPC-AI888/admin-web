@@ -6,7 +6,7 @@
         <div class="kpi-card kpi-card--blue">
           <div class="kpi-icon"><el-icon><User /></el-icon></div>
           <div class="kpi-info">
-            <div class="kpi-value">{{ formatLargeNumber(overview?.synced_user_count) }}</div>
+            <div class="kpi-value">{{ formatLargeNumber(overview?.syncedUsers) }}</div>
             <div class="kpi-label">已同步用户数</div>
           </div>
         </div>
@@ -15,7 +15,7 @@
         <div class="kpi-card kpi-card--green">
           <div class="kpi-icon"><el-icon><Files /></el-icon></div>
           <div class="kpi-info">
-            <div class="kpi-value">{{ overview ? formatBytes(overview.total_storage_bytes) : '-' }}</div>
+            <div class="kpi-value">{{ overview ? formatBytes(overview.totalBytes) : '-' }}</div>
             <div class="kpi-label">累计存储</div>
           </div>
         </div>
@@ -24,7 +24,7 @@
         <div class="kpi-card kpi-card--orange">
           <div class="kpi-icon"><el-icon><TrendCharts /></el-icon></div>
           <div class="kpi-info">
-            <div class="kpi-value">{{ overview ? formatBytes(overview.avg_size_bytes) : '-' }}</div>
+            <div class="kpi-value">{{ overview ? formatBytes(overview.avgBytes) : '-' }}</div>
             <div class="kpi-label">人均大小</div>
           </div>
         </div>
@@ -51,7 +51,7 @@
         </el-form-item>
         <el-form-item label="最小大小(KB)">
           <el-input-number
-            v-model="query.min_data_size"
+            v-model="query.minDataSize"
             :min="0"
             placeholder="0"
             style="width: 140px"
@@ -70,25 +70,25 @@
         <span class="total-tip">共 {{ pagination.total }} 条记录（默认按数据大小降序）</span>
       </div>
 
-      <el-table v-loading="loading" :data="tableData" stripe style="width: 100%" row-key="account_id">
-        <el-table-column prop="account_id" label="用户ID" width="90" />
+      <el-table v-loading="loading" :data="tableData" stripe style="width: 100%" row-key="accountId">
+        <el-table-column prop="accountId" label="用户ID" width="90" />
         <el-table-column prop="phone" label="手机号" width="130" />
         <el-table-column label="数据大小" width="120" sortable>
           <template #default="{ row }">
-            {{ formatBytes(row.data_size) }}
+            {{ formatBytes(row.dataSize) }}
           </template>
         </el-table-column>
         <el-table-column label="最近同步时间" width="160">
-          <template #default="{ row }">{{ formatTime(row.synced_time) }}</template>
+          <template #default="{ row }">{{ formatTime(row.syncedTime) }}</template>
         </el-table-column>
         <el-table-column label="内容哈希（前8位）" min-width="140">
           <template #default="{ row }">
-            <code class="hash-code">{{ row.content_hash?.slice(0, 8) || '-' }}</code>
+            <code class="hash-code">{{ row.contentHashPrefix || '-' }}</code>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="80">
           <template #default="{ row }">
-            <el-button size="small" link type="primary" @click="router.push(`/accounts/${row.account_id}`)">
+            <el-button size="small" link type="primary" @click="router.push(`/accounts/${row.accountId}`)">
               查看
             </el-button>
           </template>
@@ -98,7 +98,7 @@
       <div class="pagination-wrap">
         <el-pagination
           v-model:current-page="pagination.page"
-          v-model:page-size="pagination.page_size"
+          v-model:page-size="pagination.pageSize"
           :total="pagination.total"
           :page-sizes="[10, 20, 50, 100]"
           layout="total, sizes, prev, pager, next, jumper"
@@ -117,7 +117,7 @@ import { useRouter } from 'vue-router'
 import { Search, Refresh, User, Files, TrendCharts } from '@element-plus/icons-vue'
 import { syncApi } from '@/api/sync'
 import type { SyncUserItem, SyncOverview } from '@/api/sync'
-import { formatTime, formatBytes, formatLargeNumber } from '@/utils/format'
+import { formatTime, formatBytes, formatLargeNumber, dateToUTCStart, dateToUTCEnd } from '@/utils/format'
 
 const router = useRouter()
 
@@ -129,47 +129,46 @@ const dateRange = ref<[string, string] | null>(null)
 
 const query = reactive({
   phone: '',
-  synced_time_start: '',
-  synced_time_end: '',
-  min_data_size: undefined as number | undefined,
+  syncedTimeStart: '',
+  syncedTimeEnd: '',
+  minDataSize: undefined as number | undefined,
 })
 
-const pagination = reactive({
-  page: 1,
-  page_size: 20,
-  total: 0,
-})
-
-function handleDateChange(val: [string, string] | null) {
-  query.synced_time_start = val?.[0] || ''
-  query.synced_time_end = val?.[1] || ''
+function handleDateChange(value: [string, string] | null) {
+  if (value) {
+    query.syncedTimeStart = dateToUTCStart(value[0])
+    query.syncedTimeEnd = dateToUTCEnd(value[1])
+  } else {
+    query.syncedTimeStart = ''
+    query.syncedTimeEnd = ''
+  }
 }
 
 async function loadOverview() {
   overviewLoading.value = true
   try {
-    overview.value = await syncApi.getOverview()
+    const res = await syncApi.getOverview()
+    overview.value = res
   } finally {
     overviewLoading.value = false
   }
 }
 
+const pagination = reactive({
+  page: 1,
+  pageSize: 20,
+  total: 0,
+})
+
 async function loadData() {
   loading.value = true
   try {
-    const params: Record<string, unknown> = {}
-    if (query.phone) params.phone = query.phone
-    if (query.synced_time_start) params.synced_time_start = query.synced_time_start
-    if (query.synced_time_end) params.synced_time_end = query.synced_time_end
-    if (query.min_data_size && query.min_data_size > 0) {
-      params.min_data_size = query.min_data_size * 1024 // KB → bytes
-    }
-
-    const res = await syncApi.getUserList({
-      ...params,
+    const params = {
+      ...query,
       page: pagination.page,
-      page_size: pagination.page_size,
-    } as Parameters<typeof syncApi.getUserList>[0])
+      pageSize: pagination.pageSize,
+    } as Parameters<typeof syncApi.getUserList>[0]
+    const res = await syncApi.getUserList(params)
     tableData.value = res.list
     pagination.total = res.total
   } finally {
@@ -184,9 +183,9 @@ function handleSearch() {
 
 function handleReset() {
   query.phone = ''
-  query.synced_time_start = ''
-  query.synced_time_end = ''
-  query.min_data_size = undefined
+  query.syncedTimeStart = ''
+  query.syncedTimeEnd = ''
+  query.minDataSize = undefined
   dateRange.value = null
   pagination.page = 1
   loadData()
@@ -198,7 +197,7 @@ function handlePageChange(page: number) {
 }
 
 function handleSizeChange(size: number) {
-  pagination.page_size = size
+  pagination.pageSize = size
   pagination.page = 1
   loadData()
 }

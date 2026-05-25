@@ -1,40 +1,44 @@
 import request from './request'
 
 export interface PlanItem {
-  id: number
-  plan_type: string
+  id: number | string
+  planType: string
   name: string
   price: number
-  daily_dial_limit: number
-  customer_limit: number
-  sync_mode: string
-  data_export: boolean
-  trial_days: number
+  dailyDialLimit: number
+  customerLimit: number
+  syncMode: string
+  dataExport: boolean
+  trialDays: number
   enabled: boolean
-  created_time: string
-  updated_time: string
+  createdTime: string
+  updatedTime: string
 }
 
 export interface PlanUpdateParams {
   name?: string
   price?: number
-  daily_dial_limit?: number
-  customer_limit?: number
-  sync_mode?: string
-  data_export?: boolean
-  trial_days?: number
+  dailyDialLimit?: number
+  customerLimit?: number
+  syncMode?: string
+  dataExport?: boolean
+  trialDays?: number
   enabled?: boolean
 }
 
+type PlanId = number | string
+
 export const planApi = {
-  getList: (): Promise<PlanItem[]> => request.get('/admin/plans'),
+  getList: (): Promise<PlanItem[]> =>
+    request.get('/plans') as Promise<PlanItem[]>,
 
-  getDetail: (id: number): Promise<PlanItem> => request.get(`/admin/plans/${id}`),
+  getDetail: (id: PlanId): Promise<PlanItem> =>
+    request.get(`/plans/${id}`) as Promise<PlanItem>,
 
-  update: (id: number, data: PlanUpdateParams): Promise<void> =>
-    request.put(`/admin/plans/${id}`, data),
+  update: (id: PlanId, data: PlanUpdateParams): Promise<void> =>
+    request.put(`/plans/${id}`, data),
 
-  enable: (id: number): Promise<void> => request.post(`/admin/plans/${id}/enable`),
+  enable: (id: PlanId): Promise<void> => request.post(`/plans/${id}/enable`),
 
-  disable: (id: number): Promise<void> => request.post(`/admin/plans/${id}/disable`),
+  disable: (id: PlanId): Promise<void> => request.post(`/plans/${id}/disable`),
 }

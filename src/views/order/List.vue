@@ -4,23 +4,23 @@
     <div class="filter-section">
       <el-form :model="query" inline label-width="80px">
         <el-form-item label="订单号">
-          <el-input v-model="query.order_no" placeholder="精确匹配" clearable style="width: 200px" />
+          <el-input v-model="query.orderNo" placeholder="精确匹配" clearable style="width: 200px" />
         </el-form-item>
-        <el-form-item label="手机号">
-          <el-input v-model="query.account_phone" placeholder="模糊匹配" clearable style="width: 160px" />
+        <el-form-item label="用户ID">
+          <el-input v-model="query.accountId" placeholder="精确匹配" clearable type="number" min="1" style="width: 160px" />
         </el-form-item>
         <el-form-item label="支付状态">
-          <el-select v-model="query.pay_status" placeholder="全部" clearable multiple style="width: 200px">
+          <el-select v-model="query.payStatus" placeholder="全部" clearable multiple style="width: 200px">
             <el-option v-for="(v, k) in PayStatusMap" :key="k" :label="v.label" :value="k" />
           </el-select>
         </el-form-item>
         <el-form-item label="退款状态">
-          <el-select v-model="query.refund_status" placeholder="全部" clearable multiple style="width: 200px">
+          <el-select v-model="query.refundStatus" placeholder="全部" clearable multiple style="width: 200px">
             <el-option v-for="(v, k) in RefundStatusMap" :key="k" :label="v.label" :value="k" />
           </el-select>
         </el-form-item>
         <el-form-item label="支付方式">
-          <el-select v-model="query.pay_method" placeholder="全部" clearable style="width: 140px">
+          <el-select v-model="query.payMethod" placeholder="全部" clearable style="width: 140px">
             <el-option v-for="(v, k) in PayMethodMap" :key="k" :label="v.label" :value="k" />
           </el-select>
         </el-form-item>
@@ -47,17 +47,17 @@
     <div class="stats-bar admin-card">
       <div class="stat-item" v-if="!statsLoading">
         <span class="stat-label">订单数</span>
-        <span class="stat-value">{{ stats.order_count }}</span>
+        <span class="stat-value">{{ stats.orderCount }}</span>
       </div>
       <el-divider direction="vertical" />
       <div class="stat-item" v-if="!statsLoading">
         <span class="stat-label">成交金额</span>
-        <span class="stat-value success">{{ formatAmount(stats.total_amount) }}</span>
+        <span class="stat-value success">{{ formatAmount(stats.totalAmount) }}</span>
       </div>
       <el-divider direction="vertical" />
       <div class="stat-item" v-if="!statsLoading">
         <span class="stat-label">退款金额</span>
-        <span class="stat-value danger">{{ formatAmount(stats.refund_amount) }}</span>
+        <span class="stat-value danger">{{ formatAmount(stats.refundAmount) }}</span>
       </div>
       <el-skeleton v-if="statsLoading" :rows="1" animated style="width: 300px" />
     </div>
@@ -69,18 +69,18 @@
       </div>
 
       <el-table v-loading="loading" :data="tableData" stripe style="width: 100%" row-key="id">
-        <el-table-column prop="order_no" label="订单号" min-width="180" show-overflow-tooltip />
+        <el-table-column prop="orderNo" label="订单号" min-width="180" show-overflow-tooltip />
         <el-table-column label="手机号" width="130">
           <template #default="{ row }">
-            <el-tooltip :content="row.account_phone" placement="top">
-              <span class="phone-mask">{{ maskPhone(row.account_phone) }}</span>
+            <el-tooltip :content="row.accountPhone" placement="top">
+              <span class="phone-mask">{{ maskPhone(row.accountPhone) }}</span>
             </el-tooltip>
           </template>
         </el-table-column>
         <el-table-column label="套餐" width="90">
           <template #default="{ row }">
-            <el-tag :type="PlanTypeMap[row.plan_type as PlanType]?.type" size="small">
-              {{ PlanTypeMap[row.plan_type as PlanType]?.label || row.plan_type }}
+            <el-tag :type="PlanTypeMap[row.planType as PlanType]?.type" size="small">
+              {{ PlanTypeMap[row.planType as PlanType]?.label || row.planType }}
             </el-tag>
           </template>
         </el-table-column>
@@ -89,25 +89,25 @@
         </el-table-column>
         <el-table-column label="支付方式" width="100">
           <template #default="{ row }">
-            {{ PayMethodMap[row.pay_method as PayMethod]?.label || row.pay_method }}
+            {{ PayMethodMap[row.payMethod as PayMethod]?.label || row.payMethod }}
           </template>
         </el-table-column>
         <el-table-column label="支付状态" width="100">
           <template #default="{ row }">
-            <el-tag :type="PayStatusMap[row.pay_status as PayStatus]?.type" size="small">
-              {{ PayStatusMap[row.pay_status as PayStatus]?.label }}
+            <el-tag :type="PayStatusMap[row.payStatus as PayStatus]?.type" size="small">
+              {{ PayStatusMap[row.payStatus as PayStatus]?.label }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column label="退款状态" width="100">
           <template #default="{ row }">
-            <el-tag :type="RefundStatusMap[row.refund_status as RefundStatus]?.type" size="small">
-              {{ RefundStatusMap[row.refund_status as RefundStatus]?.label }}
+            <el-tag :type="RefundStatusMap[row.refundStatus as RefundStatus]?.type" size="small">
+              {{ RefundStatusMap[row.refundStatus as RefundStatus]?.label }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column label="支付时间" width="160">
-          <template #default="{ row }">{{ formatTime(row.pay_time) }}</template>
+          <template #default="{ row }">{{ formatTime(row.payTime) }}</template>
         </el-table-column>
         <el-table-column label="操作" width="160" fixed="right">
           <template #default="{ row }">
@@ -117,7 +117,7 @@
               </el-button>
               <el-button
                 v-permission="'SUPER_ADMIN'"
-                v-if="row.pay_status === PayStatus.PAID && [RefundStatus.NONE, RefundStatus.REJECTED].includes(row.refund_status)"
+                v-if="row.payStatus === PayStatus.PAID && [RefundStatus.NONE, RefundStatus.REJECTED].includes(row.refundStatus)"
                 size="small"
                 type="danger"
                 link
@@ -131,7 +131,7 @@
       <div class="pagination-wrap">
         <el-pagination
           v-model:current-page="pagination.page"
-          v-model:page-size="pagination.page_size"
+          v-model:page-size="pagination.pageSize"
           :total="pagination.total"
           :page-sizes="[10, 20, 50, 100]"
           layout="total, sizes, prev, pager, next, jumper"
@@ -154,20 +154,20 @@
           <strong>危险操作：</strong>退款操作不可撤销，请谨慎确认！
         </template>
         <template #default>
-          订单号：{{ refundDialog.order_no }}，原始金额：{{ formatAmount(refundDialog.max_amount) }}
+          订单号：{{ refundDialog.orderNo }}，原始金额：{{ formatAmount(refundDialog.maxAmount) }}
         </template>
       </el-alert>
       <el-form :model="refundDialog" :rules="refundRules" ref="refundFormRef" label-width="100px">
         <el-form-item label="退款金额" prop="refund_amount">
           <el-input-number
-            v-model="refundDialog.refund_amount"
+            v-model="refundDialog.refundAmount"
             :min="0.01"
-            :max="refundDialog.max_amount"
+            :max="refundDialog.maxAmount"
             :precision="2"
             :step="0.01"
             style="width: 100%"
           />
-          <div class="form-hint">最大可退：{{ formatAmount(refundDialog.max_amount) }}</div>
+          <div class="form-hint">最大可退：{{ formatAmount(refundDialog.maxAmount) }}</div>
         </el-form-item>
         <el-form-item label="退款原因" prop="reason">
           <el-input
@@ -204,7 +204,7 @@ import {
   PayStatus, PayStatusMap,
   RefundStatus, RefundStatusMap,
 } from '@/constants/enums'
-import { formatTime, formatAmount } from '@/utils/format'
+import { formatTime, formatAmount, dateToUTCStart, dateToUTCEnd } from '@/utils/format'
 
 const router = useRouter()
 
@@ -220,37 +220,37 @@ const tableData = ref<OrderItem[]>([])
 const dateRange = ref<[string, string] | null>(null)
 
 const stats = reactive<OrderStats>({
-  order_count: 0,
-  total_amount: 0,
-  refund_amount: 0,
+  orderCount: 0,
+  totalAmount: 0,
+  refundAmount: 0,
 })
 
 const query = reactive({
-  order_no: '',
-  account_phone: '',
-  pay_status: [] as string[],
-  refund_status: [] as string[],
-  pay_method: '',
-  pay_time_start: '',
-  pay_time_end: '',
+  orderNo: '',
+  accountId: undefined as number | undefined,
+  payStatus: [] as string[],
+  refundStatus: [] as string[],
+  payMethod: '',
+  startDate: '',
+  endDate: '',
 })
 
 const pagination = reactive({
   page: 1,
-  page_size: 20,
+  pageSize: 20,
   total: 0,
 })
 
 function handleDateChange(val: [string, string] | null) {
-  query.pay_time_start = val?.[0] || ''
-  query.pay_time_end = val?.[1] || ''
+  query.startDate = val?.[0] ? dateToUTCStart(val[0]) : ''
+  query.endDate = val?.[1] ? dateToUTCEnd(val[1]) : ''
 }
 
 function buildParams() {
   const p: Record<string, unknown> = { ...query }
   Object.keys(p).forEach((k) => {
     const v = p[k]
-    if (v === '' || (Array.isArray(v) && v.length === 0)) delete p[k]
+    if (v === '' || v == null || (Array.isArray(v) && v.length === 0)) delete p[k]
   })
   return p
 }
@@ -261,7 +261,7 @@ async function loadData() {
     const res = await orderApi.getList({
       ...buildParams(),
       page: pagination.page,
-      page_size: pagination.page_size,
+      pageSize: pagination.pageSize,
     } as Parameters<typeof orderApi.getList>[0])
     tableData.value = res.list
     pagination.total = res.total
@@ -287,13 +287,13 @@ function handleSearch() {
 }
 
 function handleReset() {
-  query.order_no = ''
-  query.account_phone = ''
-  query.pay_status = []
-  query.refund_status = []
-  query.pay_method = ''
-  query.pay_time_start = ''
-  query.pay_time_end = ''
+  query.orderNo = ''
+  query.accountId = undefined
+  query.payStatus = []
+  query.refundStatus = []
+  query.payMethod = ''
+  query.startDate = ''
+  query.endDate = ''
   dateRange.value = null
   pagination.page = 1
   loadData()
@@ -306,7 +306,7 @@ function handlePageChange(page: number) {
 }
 
 function handleSizeChange(size: number) {
-  pagination.page_size = size
+  pagination.pageSize = size
   pagination.page = 1
   loadData()
 }
@@ -316,19 +316,19 @@ const refundFormRef = ref<FormInstance>()
 const refundDialog = reactive({
   visible: false,
   id: 0,
-  order_no: '',
-  max_amount: 0,
-  refund_amount: 0,
+  orderNo: '',
+  maxAmount: 0,
+  refundAmount: 0,
   reason: '',
   loading: false,
 })
 const refundRules: FormRules = {
-  refund_amount: [
+  refundAmount: [
     { required: true, message: '请输入退款金额', trigger: 'blur' },
     {
       validator: (_rule, value, callback) => {
         if (value <= 0) callback(new Error('退款金额必须大于0'))
-        else if (value > refundDialog.max_amount) callback(new Error(`不能超过原始金额 ${formatAmount(refundDialog.max_amount)}`))
+        else if (value > refundDialog.maxAmount) callback(new Error(`不能超过原始金额 ${formatAmount(refundDialog.maxAmount)}`))
         else callback()
       },
       trigger: 'blur',
@@ -339,9 +339,9 @@ const refundRules: FormRules = {
 
 function handleRefund(row: OrderItem) {
   refundDialog.id = row.id
-  refundDialog.order_no = row.order_no
-  refundDialog.max_amount = row.amount
-  refundDialog.refund_amount = row.amount
+  refundDialog.orderNo = row.orderNo
+  refundDialog.maxAmount = row.amount
+  refundDialog.refundAmount = row.amount
   refundDialog.reason = ''
   refundDialog.visible = true
 }
@@ -372,7 +372,7 @@ async function confirmRefund() {
   refundDialog.loading = true
   try {
     await orderApi.refund(refundDialog.id, {
-      refund_amount: refundDialog.refund_amount,
+      refundAmount: refundDialog.refundAmount,
       reason: refundDialog.reason,
     })
     ElMessage.success('退款申请已提交')

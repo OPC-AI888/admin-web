@@ -1,23 +1,23 @@
 import request from './request'
 
 export interface TransactionListParams {
-  pay_time_start?: string
-  pay_time_end?: string
-  pay_method?: string
-  pay_status?: string
+  startDate?: string
+  endDate?: string
+  payMethod?: string
+  payStatus?: string
   page?: number
-  page_size?: number
+  pageSize?: number
 }
 
 export interface TransactionItem {
   id: number
-  order_no: string
-  account_phone: string
+  orderNo: string
+  accountPhone: string
   amount: number
-  pay_method: string
-  pay_status: string
-  refund_status: string
-  pay_time?: string
+  payMethod: string
+  payStatus: string
+  refundStatus: string
+  payTime?: string
 }
 
 export interface ReconciliationParams {
@@ -26,35 +26,46 @@ export interface ReconciliationParams {
 
 export interface ReconciliationData {
   date: string
-  order_count: number
-  success_count: number
-  success_amount: number
-  refund_count: number
-  refund_amount: number
-  net_income: number
-  by_pay_method: PayMethodSummary[]
+  orderCount: number
+  successCount: number
+  successAmount: number
+  refundCount: number
+  refundAmount: number
+  netIncome: number
+  byPayMethod: PayMethodSummary[]
 }
 
 export interface PayMethodSummary {
-  pay_method: string
-  order_count: number
-  success_count: number
-  success_amount: number
-  refund_count: number
-  refund_amount: number
+  payMethod: string
+  orderCount: number
+  successCount: number
+  successAmount: number
+  refundCount: number
+  refundAmount: number
 }
 
 export interface PageResult<T> {
   list: T[]
   total: number
   page: number
-  page_size: number
+  pageSize: number
+}
+
+function toTransactionParams(params: TransactionListParams) {
+  return {
+    startDate: params.startDate,
+    endDate: params.endDate,
+    payMethod: params.payMethod,
+    payStatus: params.payStatus,
+    page: params.page,
+    size: params.pageSize,
+  }
 }
 
 export const paymentApi = {
   getTransactions: (params: TransactionListParams): Promise<PageResult<TransactionItem>> =>
-    request.get('/admin/payments/transactions', { params }),
+    request.get('/payments/transactions', { params: toTransactionParams(params) }),
 
   getReconciliation: (params: ReconciliationParams): Promise<ReconciliationData> =>
-    request.get('/admin/payments/reconciliation', { params }),
+    request.get('/payments/reconciliation', { params }),
 }

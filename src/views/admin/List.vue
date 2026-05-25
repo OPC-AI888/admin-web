@@ -29,10 +29,10 @@
           </template>
         </el-table-column>
         <el-table-column label="最近登录" width="160">
-          <template #default="{ row }">{{ formatTime(row.last_login_time) }}</template>
+          <template #default="{ row }">{{ formatTime(row.lastLoginTime) }}</template>
         </el-table-column>
         <el-table-column label="创建时间" width="160">
-          <template #default="{ row }">{{ formatTime(row.created_time) }}</template>
+          <template #default="{ row }">{{ formatTime(row.createdTime) }}</template>
         </el-table-column>
         <el-table-column label="操作" width="220" fixed="right">
           <template #default="{ row }">
@@ -65,7 +65,7 @@
       <div class="pagination-wrap">
         <el-pagination
           v-model:current-page="pagination.page"
-          v-model:page-size="pagination.page_size"
+          v-model:page-size="pagination.pageSize"
           :total="pagination.total"
           :page-sizes="[10, 20, 50]"
           layout="total, sizes, prev, pager, next, jumper"
@@ -159,7 +159,7 @@ const tableData = ref<AdminItem[]>([])
 
 const pagination = reactive({
   page: 1,
-  page_size: 20,
+  pageSize: 20,
   total: 0,
 })
 
@@ -172,7 +172,7 @@ async function loadData() {
   try {
     const res = await adminApi.getList({
       page: pagination.page,
-      page_size: pagination.page_size,
+      pageSize: pagination.pageSize,
     })
     tableData.value = res.list
     pagination.total = res.total
@@ -182,7 +182,7 @@ async function loadData() {
 }
 
 function handlePageChange(p: number) { pagination.page = p; loadData() }
-function handleSizeChange(s: number) { pagination.page_size = s; pagination.page = 1; loadData() }
+function handleSizeChange(s: number) { pagination.pageSize = s; pagination.page = 1; loadData() }
 
 // 禁用
 async function handleDisable(row: AdminItem) {
@@ -235,7 +235,7 @@ async function handleResetPassword(row: AdminItem) {
   if (!ok) return
   try {
     const res = await adminApi.resetPassword(row.id)
-    passwordDialog.tempPassword = res.temp_password
+    passwordDialog.tempPassword = res.tempPassword
     passwordDialog.visible = true
   } catch { /* handled */ }
 }
@@ -306,7 +306,6 @@ async function confirmForm() {
         username: formDialog.username,
         password: formDialog.password,
         role: formDialog.role,
-        status: formDialog.status,
       })
       ElMessage.success('创建成功')
     }

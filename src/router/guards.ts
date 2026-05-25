@@ -22,6 +22,15 @@ export function setupGuards(router: Router) {
       return { path: '/login', query: { redirect: to.fullPath } }
     }
 
+    if (!auth.admin) {
+      try {
+        await auth.fetchProfile()
+      } catch {
+        auth.clearSession()
+        return { path: '/login', query: { redirect: to.fullPath } }
+      }
+    }
+
     // 构建菜单（第一次进入时）
     if (menuStore.menus.length === 0 && auth.admin?.role) {
       menuStore.buildMenus(auth.admin.role)

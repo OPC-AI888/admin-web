@@ -10,8 +10,8 @@
         <el-button :icon="ArrowLeft" @click="router.back()">返回</el-button>
         <div class="toolbar-title">
           编辑套餐：
-          <el-tag :type="PlanTypeMap[form.plan_type as PlanType]?.type">
-            {{ PlanTypeMap[form.plan_type as PlanType]?.label || form.plan_type }}
+          <el-tag :type="PlanTypeMap[form.planType as PlanType]?.type">
+            {{ PlanTypeMap[form.planType as PlanType]?.label || form.planType }}
           </el-tag>
         </div>
       </div>
@@ -34,29 +34,29 @@
               v-model="form.price"
               :min="0"
               :precision="2"
-              :disabled="form.plan_type === PlanType.FREE"
+              :disabled="form.planType === PlanType.FREE"
               style="width: 200px"
             />
-            <span v-if="form.plan_type === PlanType.FREE" class="field-hint">
+            <span v-if="form.planType === PlanType.FREE" class="field-hint">
               免费套餐价格固定为 ¥0.00
             </span>
           </el-form-item>
 
-          <el-form-item label="每日拨打上限" prop="daily_dial_limit">
-            <el-input-number v-model="form.daily_dial_limit" :min="-1" style="width: 200px" />
+          <el-form-item label="每日拨打上限" prop="dailyDialLimit">
+            <el-input-number v-model="form.dailyDialLimit" :min="-1" style="width: 200px" />
             <span class="field-hint">-1 表示无限制</span>
           </el-form-item>
 
-          <el-form-item label="客户数上限" prop="customer_limit">
-            <el-input-number v-model="form.customer_limit" :min="-1" style="width: 200px" />
+          <el-form-item label="客户数上限" prop="customerLimit">
+            <el-input-number v-model="form.customerLimit" :min="-1" style="width: 200px" />
             <span class="field-hint">-1 表示无限制</span>
           </el-form-item>
 
-          <el-form-item label="同步模式" prop="sync_mode">
+          <el-form-item label="同步模式" prop="syncMode">
             <el-select
-              v-model="form.sync_mode"
+              v-model="form.syncMode"
               style="width: 220px"
-              :disabled="form.plan_type === PlanType.FREE"
+              :disabled="form.planType === PlanType.FREE"
               @change="handleSyncModeChange"
             >
               <el-option
@@ -84,23 +84,23 @@
 
           <el-form-item label="数据导出">
             <el-switch
-              v-model="form.data_export"
-              :disabled="form.sync_mode === SyncMode.NONE"
+              v-model="form.dataExport"
+              :disabled="form.syncMode === SyncMode.NONE"
             />
-            <span v-if="form.sync_mode === SyncMode.NONE" class="field-hint">
+            <span v-if="form.syncMode === SyncMode.NONE" class="field-hint">
               同步模式为"不支持同步"时不可开启
             </span>
           </el-form-item>
 
-          <el-form-item label="体验天数" prop="trial_days">
+          <el-form-item label="体验天数" prop="trialDays">
             <el-input-number
-              v-model="form.trial_days"
+              v-model="form.trialDays"
               :min="0"
               :max="365"
               style="width: 200px"
-              :disabled="form.plan_type !== PlanType.FREE"
+              :disabled="form.planType !== PlanType.FREE"
             />
-            <span v-if="form.plan_type !== PlanType.FREE" class="field-hint">
+            <span v-if="form.planType !== PlanType.FREE" class="field-hint">
               体验天数仅免费套餐可配置
             </span>
           </el-form-item>
@@ -132,50 +132,58 @@ import { PlanType, PlanTypeMap, SyncMode, SyncModeMap } from '@/constants/enums'
 const route = useRoute()
 const router = useRouter()
 
-const planId = Number(route.params.id)
+const planId = route.params.id as string | undefined
 const pageLoading = ref(false)
 const submitting = ref(false)
 const formRef = ref<FormInstance>()
 
 const form = reactive({
-  plan_type: '',
+  planType: '',
   name: '',
   price: 0,
-  daily_dial_limit: -1,
-  customer_limit: -1,
-  sync_mode: SyncMode.NONE,
-  data_export: false,
-  trial_days: 0,
+  dailyDialLimit: -1,
+  customerLimit: -1,
+  syncMode: SyncMode.NONE,
+  dataExport: false,
+  trialDays: 0,
   enabled: true,
 })
 
 const rules: FormRules = {
   name: [{ required: true, message: '请输入套餐名称', trigger: 'blur' }],
   price: [{ required: true, message: '请输入价格', trigger: 'blur' }],
-  sync_mode: [{ required: true, message: '请选择同步模式', trigger: 'change' }],
+  syncMode: [{ required: true, message: '请选择同步模式', trigger: 'change' }],
 }
 
 // 字段联动：plan_type = FREE
-watch(() => form.plan_type, (type) => {
+watch(() => form.planType, (type) => {
   if (type === PlanType.FREE) {
     form.price = 0
-    form.sync_mode = SyncMode.NONE
-    form.data_export = false
+    form.syncMode = SyncMode.NONE
+    form.dataExport = false
   }
 })
 
 // 字段联动：sync_mode = NONE
 function handleSyncModeChange(mode: string) {
   if (mode === SyncMode.NONE) {
-    form.data_export = false
+    form.dataExport = false
   }
 }
 
 async function loadDetail() {
+  if (!planId) {
+    ElMessage.error('套餐 ID 不存在')
+    router.back()
+    return
+  }
   pageLoading.value = true
   try {
     const detail: PlanItem = await planApi.getDetail(planId)
     Object.assign(form, detail)
+  } catch {
+    ElMessage.error('加载套餐详情失败')
+    router.back()
   } finally {
     pageLoading.value = false
   }
@@ -193,8 +201,8 @@ async function handleSubmit() {
         <p>即将修改套餐 <strong>${form.name}</strong>：</p>
         <ul style="margin: 8px 0; padding-left: 20px; line-height: 2">
           <li>价格：¥${form.price.toFixed(2)}</li>
-          <li>每日拨打上限：${form.daily_dial_limit === -1 ? '无限制' : form.daily_dial_limit}</li>
-          <li>客户数上限：${form.customer_limit === -1 ? '无限制' : form.customer_limit}</li>
+          <li>每日拨打上限：${form.dailyDialLimit === -1 ? '无限制' : form.dailyDialLimit}</li>
+          <li>客户数上限：${form.customerLimit === -1 ? '无限制' : form.customerLimit}</li>
         </ul>
         <p style="color: #fa8c16; font-weight: 600">⚠️ 此修改将立即影响新购买用户权益</p>
       </div>`,
@@ -210,16 +218,20 @@ async function handleSubmit() {
     return
   }
 
+  if (!planId) {
+    ElMessage.error('套餐 ID 不存在')
+    return
+  }
   submitting.value = true
   try {
     await planApi.update(planId, {
       name: form.name,
       price: form.price,
-      daily_dial_limit: form.daily_dial_limit,
-      customer_limit: form.customer_limit,
-      sync_mode: form.sync_mode,
-      data_export: form.data_export,
-      trial_days: form.trial_days,
+      dailyDialLimit: form.dailyDialLimit,
+      customerLimit: form.customerLimit,
+      syncMode: form.syncMode,
+      dataExport: form.dataExport,
+      trialDays: form.trialDays,
       enabled: form.enabled,
     })
     ElMessage.success('套餐保存成功')

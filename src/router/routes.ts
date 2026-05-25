@@ -4,12 +4,12 @@ import { ROUTE_NAMES } from '@/constants/route'
 const routes: RouteRecordRaw[] = [
   {
     path: '/login',
-    name: ROUTE_NAMES.LOGIN,
     component: () => import('@/layouts/BlankLayout.vue'),
     meta: { public: true },
     children: [
       {
         path: '',
+        name: ROUTE_NAMES.LOGIN,
         component: () => import('@/views/login/Index.vue'),
       },
     ],
@@ -107,24 +107,21 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/403',
-    name: ROUTE_NAMES.ERROR_403,
     component: () => import('@/layouts/BlankLayout.vue'),
     meta: { public: true },
-    children: [{ path: '', component: () => import('@/views/error/403.vue') }],
+    children: [{ path: '', name: ROUTE_NAMES.ERROR_403, component: () => import('@/views/error/403.vue') }],
   },
   {
     path: '/500',
-    name: ROUTE_NAMES.ERROR_500,
     component: () => import('@/layouts/BlankLayout.vue'),
     meta: { public: true },
-    children: [{ path: '', component: () => import('@/views/error/500.vue') }],
+    children: [{ path: '', name: ROUTE_NAMES.ERROR_500, component: () => import('@/views/error/500.vue') }],
   },
   {
     path: '/:pathMatch(.*)*',
-    name: ROUTE_NAMES.ERROR_404,
     component: () => import('@/layouts/BlankLayout.vue'),
     meta: { public: true },
-    children: [{ path: '', component: () => import('@/views/error/404.vue') }],
+    children: [{ path: '', name: ROUTE_NAMES.ERROR_404, component: () => import('@/views/error/404.vue') }],
   },
 ]
 

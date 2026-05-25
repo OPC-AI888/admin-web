@@ -10,6 +10,7 @@ import {
   clearTokens,
   getAdminInfo,
   setAdminInfo,
+  getTokenPair,
 } from '@/utils/auth'
 
 export interface AdminInfo {
@@ -28,11 +29,12 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function login(params: LoginParams) {
     const res = await authApi.login(params)
-    accessToken.value = res.access_token
-    refreshToken.value = res.refresh_token
+    const tokens = getTokenPair(res)
+    accessToken.value = tokens.accessToken
+    refreshToken.value = tokens.refreshToken
     admin.value = res.admin
-    setAccessToken(res.access_token)
-    setRefreshToken(res.refresh_token)
+    setAccessToken(tokens.accessToken)
+    setRefreshToken(tokens.refreshToken)
     setAdminInfo(res.admin)
     return res
   }
@@ -41,10 +43,11 @@ export const useAuthStore = defineStore('auth', () => {
     const rt = refreshToken.value
     if (!rt) throw new Error('No refresh token')
     const res = await authApi.refresh(rt)
-    accessToken.value = res.access_token
-    refreshToken.value = res.refresh_token
-    setAccessToken(res.access_token)
-    setRefreshToken(res.refresh_token)
+    const tokens = getTokenPair(res)
+    accessToken.value = tokens.accessToken
+    refreshToken.value = tokens.refreshToken
+    setAccessToken(tokens.accessToken)
+    setRefreshToken(tokens.refreshToken)
     return res
   }
 
@@ -54,16 +57,17 @@ export const useAuthStore = defineStore('auth', () => {
     } catch {
       // ignore
     } finally {
-      accessToken.value = null
-      refreshToken.value = null
-      admin.value = null
-      clearTokens()
+      clearSession()
     }
   }
 
   async function fetchProfile() {
     const profile = await authApi.getProfile()
-    admin.value = { id: profile.id, username: profile.username, role: profile.role }
+    admin.value = {
+      id: profile.id,
+      username: profile.username,
+      role: profile.role,
+    }
     setAdminInfo(admin.value)
     return profile
   }
@@ -73,6 +77,13 @@ export const useAuthStore = defineStore('auth', () => {
     refreshToken.value = rt
     setAccessToken(at)
     setRefreshToken(rt)
+  }
+
+  function clearSession() {
+    accessToken.value = null
+    refreshToken.value = null
+    admin.value = null
+    clearTokens()
   }
 
   return {
@@ -86,5 +97,6 @@ export const useAuthStore = defineStore('auth', () => {
     logout,
     fetchProfile,
     setTokens,
+    clearSession,
   }
 })

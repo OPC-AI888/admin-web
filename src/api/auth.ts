@@ -4,12 +4,12 @@ export interface LoginParams {
   username: string
   password: string
   captcha: string
-  captcha_key: string
+  captchaKey: string
 }
 
 export interface LoginResponse {
-  access_token: string
-  refresh_token: string
+  accessToken?: string
+  refreshToken?: string
   admin: {
     id: number
     username: string
@@ -18,26 +18,27 @@ export interface LoginResponse {
 }
 
 export interface CaptchaResponse {
-  captcha_key: string
-  image_base64: string
+  captchaKey: string
+  imageBase64: string
 }
 
 export interface AdminProfile {
   id: number
   username: string
   role: string
-  last_login_time: string
+  lastLoginTime: string
 }
 
 export const authApi = {
-  login: (data: LoginParams): Promise<LoginResponse> => request.post('/admin/auth/login', data),
+  login: (data: LoginParams): Promise<LoginResponse> =>
+    request.post('/auth/login', data),
 
-  refresh: (refreshToken: string): Promise<{ access_token: string; refresh_token: string }> =>
-    request.post('/admin/auth/refresh', { refresh_token: refreshToken }),
+  refresh: (refreshToken: string): Promise<LoginResponse> =>
+    request.post('/auth/refresh', { refreshToken }),
 
-  logout: (): Promise<void> => request.post('/admin/auth/logout'),
+  logout: (): Promise<void> => request.post('/auth/logout'),
 
-  getCaptcha: (): Promise<CaptchaResponse> => request.get('/admin/auth/captcha'),
+  getCaptcha: (): Promise<CaptchaResponse> => request.get('/auth/captcha'),
 
-  getProfile: (): Promise<AdminProfile> => request.get('/admin/auth/me'),
+  getProfile: (): Promise<AdminProfile> => request.get('/auth/me'),
 }

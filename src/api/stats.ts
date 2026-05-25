@@ -24,11 +24,14 @@ export interface ActiveDurationTrend {
 
 export const statsApi = {
   getDau: (params: StatsParams): Promise<DauTrend> =>
-    request.get('/admin/stats/dau', { params }),
+    (request.get('/stats/dau', { params }) as unknown as Promise<StatsTrendItem[]>)
+      .then((items) => ({ items })),
 
   getDial: (params: StatsParams): Promise<DialTrend> =>
-    request.get('/admin/stats/dial', { params }),
+    (request.get('/stats/dial', { params }) as unknown as Promise<StatsTrendItem[]>)
+      .then((items) => ({ items })),
 
   getActiveDuration: (params: StatsParams): Promise<ActiveDurationTrend> =>
-    request.get('/admin/stats/active-duration', { params }),
+    (request.get('/stats/active-minutes', { params }) as unknown as Promise<StatsTrendItem[]>)
+      .then((items) => ({ items })),
 }

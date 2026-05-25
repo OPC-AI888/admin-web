@@ -25,7 +25,7 @@
               <template v-if="overviewLoading">
                 <el-skeleton-item variant="text" style="width: 80px; height: 32px" />
               </template>
-              <template v-else>{{ formatLargeNumber(overview?.total_users) }}</template>
+              <template v-else>{{ formatLargeNumber(overview?.totalUsers) }}</template>
             </div>
             <div class="kpi-label">用户总数</div>
             <div class="kpi-trend">
@@ -67,7 +67,7 @@
               <template v-if="overviewLoading">
                 <el-skeleton-item variant="text" style="width: 80px; height: 32px" />
               </template>
-              <template v-else>{{ formatLargeNumber(overview?.paying_users) }}</template>
+              <template v-else>{{ formatLargeNumber(overview?.payingUsers) }}</template>
             </div>
             <div class="kpi-label">付费用户</div>
             <div class="kpi-trend">
@@ -88,11 +88,11 @@
               <template v-if="overviewLoading">
                 <el-skeleton-item variant="text" style="width: 80px; height: 32px" />
               </template>
-              <template v-else>{{ formatAmount(overview?.total_revenue_today) }}</template>
+              <template v-else>{{ formatAmount(overview?.totalRevenueToday) }}</template>
             </div>
             <div class="kpi-label">今日收入</div>
             <div class="kpi-sub">
-              本月：{{ formatAmount(overview?.total_revenue_month) }}
+              本月：{{ formatAmount(overview?.totalRevenueMonth) }}
             </div>
           </div>
         </div>

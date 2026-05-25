@@ -1,35 +1,35 @@
 import request from './request'
 
 export interface OrderListParams {
-  order_no?: string
-  account_phone?: string
-  pay_status?: string | string[]
-  refund_status?: string | string[]
-  pay_method?: string
-  pay_time_start?: string
-  pay_time_end?: string
+  orderNo?: string
+  accountId?: number
+  payStatus?: string | string[]
+  refundStatus?: string | string[]
+  payMethod?: string
+  startDate?: string
+  endDate?: string
   page?: number
-  page_size?: number
+  pageSize?: number
 }
 
 export interface OrderItem {
   id: number
-  order_no: string
-  account_id: number
-  account_phone: string
-  plan_type: string
-  plan_name: string
+  orderNo: string
+  accountId: number
+  accountPhone: string
+  planType: string
+  planName: string
   amount: number
-  pay_method: string
-  pay_status: string
-  refund_status: string
-  pay_time?: string
-  created_time: string
+  payMethod: string
+  payStatus: string
+  refundStatus: string
+  payTime?: string
+  createdTime: string
 }
 
 export interface OrderDetail extends OrderItem {
-  account_nickname?: string
-  refund_records?: RefundRecord[]
+  accountNickname?: string
+  refundRecords?: RefundRecord[]
 }
 
 export interface RefundRecord {
@@ -37,18 +37,18 @@ export interface RefundRecord {
   amount: number
   reason: string
   status: string
-  created_time: string
-  processed_time?: string
+  createdTime: string
+  processedTime?: string
 }
 
 export interface OrderStats {
-  order_count: number
-  total_amount: number
-  refund_amount: number
+  orderCount: number
+  totalAmount: number
+  refundAmount: number
 }
 
 export interface RefundParams {
-  refund_amount: number
+  refundAmount: number
   reason: string
 }
 
@@ -56,18 +56,36 @@ export interface PageResult<T> {
   list: T[]
   total: number
   page: number
-  page_size: number
+  pageSize: number
+}
+
+function firstValue(value?: string | string[]) {
+  return Array.isArray(value) ? value[0] : value
+}
+
+function toOrderParams(params: OrderListParams) {
+  return {
+    orderNo: params.orderNo,
+    accountId: params.accountId,
+    payStatus: firstValue(params.payStatus),
+    refundStatus: firstValue(params.refundStatus),
+    payMethod: params.payMethod,
+    startDate: params.startDate,
+    endDate: params.endDate,
+    page: params.page,
+    size: params.pageSize,
+  }
 }
 
 export const orderApi = {
   getList: (params: OrderListParams): Promise<PageResult<OrderItem>> =>
-    request.get('/admin/orders', { params }),
+    request.get('/orders', { params: toOrderParams(params) }) as Promise<PageResult<OrderItem>>,
 
-  getStats: (params: Omit<OrderListParams, 'page' | 'page_size'>): Promise<OrderStats> =>
-    request.get('/admin/orders/stats', { params }),
+  getStats: (params: Omit<OrderListParams, 'page' | 'pageSize'>): Promise<OrderStats> =>
+    request.get('/orders/stats', { params: toOrderParams(params) }),
 
-  getDetail: (id: number): Promise<OrderDetail> => request.get(`/admin/orders/${id}`),
+  getDetail: (id: number): Promise<OrderDetail> => request.get(`/orders/${id}`) as Promise<OrderDetail>,
 
   refund: (id: number, data: RefundParams): Promise<void> =>
-    request.post(`/admin/orders/${id}/refund`, data),
+    request.post(`/orders/${id}/refund`, { refundAmount: data.refundAmount, reason: data.reason }),
 }

@@ -1,11 +1,11 @@
 import request from './request'
 
 export interface DashboardOverview {
-  total_users: number
+  totalUsers: number
   dau: number
-  paying_users: number
-  total_revenue_today: number
-  total_revenue_month: number
+  payingUsers: number
+  totalRevenueToday: number
+  totalRevenueMonth: number
 }
 
 export interface TrendItem {
@@ -20,8 +20,9 @@ export interface TrendParams {
 }
 
 export const dashboardApi = {
-  getOverview: (): Promise<DashboardOverview> => request.get('/admin/dashboard/overview'),
+  getOverview: (): Promise<DashboardOverview> =>
+    request.get('/dashboard/overview') as Promise<DashboardOverview>,
 
   getTrend: (params: TrendParams): Promise<TrendItem[]> =>
-    request.get('/admin/dashboard/trend', { params }),
+    request.get('/dashboard/trend', { params }),
 }
